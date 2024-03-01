@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:9.6
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=retail_db
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./retail_db:/retail_db
+    logging:
+        options:
+            max-size: 10m
+            max-file: "3"
+
+
