@@ -1,5 +1,5 @@
 from util import get_connection
-
+import os
 
 # Every table has different column name. So we build a generic fn to build a query based on column names & table. Below is Query Template
 # cur.execute("INSERT INTO employees (id, name, age) VALUES (%s, %s, %s)",

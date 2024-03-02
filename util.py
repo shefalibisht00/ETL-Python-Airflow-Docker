@@ -9,19 +9,13 @@ import psycopg2
 def load_db_details(env):
     return DB_DETAILS[env]
 
-# connection = mc.connect(user=db_user,
-#                                 password=db_pass,
-#                                 host=db_host,
-#                                 database=db_name
-#                                 )
-
 def get_mySQL_conn(db_host,db_name,db_user,db_pass):
     connection = None
     try:
-        connection = mc.connect(user='root',
-                                password='root',
-                                host='localhost',
-                                database='retail_db'
+        connection = mc.connect(user=db_user,
+                                password=db_pass,
+                                host=db_host,
+                                database=db_name
                                 )
     except mc.Error as error:
         if error.errno == ec.ER_ACCESS_DENIED_ERROR:
@@ -31,9 +25,7 @@ def get_mySQL_conn(db_host,db_name,db_user,db_pass):
     return connection
 
 def get_postSQL_conn(db_host,db_name,db_user,db_pass):
-
     #  get_connection(db_type=TARGET_DB['DB_TYPE'], db_host=TARGET_DB['DB_HOST'],db_name=TARGET_DB['DB_NAME'],db_user=TARGET_DB['DB_USER'],db_pass=TARGET_DB['DB_PASS'])
-
     connection = psycopg2.connect(dbname=db_name, user=db_user, password=db_pass, host=db_host)
     return connection
 

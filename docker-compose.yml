@@ -2,17 +2,41 @@ version: '3.8'
 services:
   postgres:
     image: postgres:9.6
+    container_name: postgres_db
     environment:
-        - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=postgres
-        - POSTGRES_DB=retail_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=retail_db
     ports:
       - '5432:5432'
     volumes:
       - ./retail_db:/retail_db
+      - ./retail_db/create_db_tables_pg.sql:/docker-entrypoint-initdb.d/create_db_tables_pg.sql
     logging:
-        options:
-            max-size: 10m
-            max-file: "3"
-
+      options:
+        max-size: 10m
+        max-file: "3"
+  mysql:
+    image: mysql:8.2
+    container_name: mysql_db
+    environment:
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3307:3306
+    volumes:
+      - ./retail_db:/retail_db
+      - ./retail_db/create_db.sql:/docker-entrypoint-initdb.d/create_db.sql
+  pythondevcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: python-etl-container
+    environment:
+        - MYSQL_DB_USER=root
+        - MYSQL_DB_PASS=root
+        - POSTGRES_DB_USER=postgres
+        - POSTGRES_DB_PASS=postgres
+    volumes:
+      - .:/app/
 
